@@ -183,27 +183,43 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		TextOut(hdc, 100, 20, sgnPingStr, wcslen(sgnPingStr));
 
 		if (usePing == PING_ERROR_VALUE) {
-			wcsstr(usePingStr, L"X");
+			wcscat_s(usePingStr, L"X");
 		} else {
 			_itow_s(usePing, usePingStr, 10);
 			wcscat_s(usePingStr, L"ms");	
 		}
 		TextOut(hdc, 100, 40, usePingStr, wcslen(usePingStr));
 
-		_itow_s(uswPing, uswPingStr, 10);
-		wcscat_s(uswPingStr, L"ms");
+		if (uswPing == PING_ERROR_VALUE) {
+			wcscat_s(usePingStr, L"X");
+		} else {
+			_itow_s(uswPing, uswPingStr, 10);
+			wcscat_s(uswPingStr, L"ms");
+		}
 		TextOut(hdc, 100, 60, uswPingStr, wcslen(uswPingStr));
 
-		_itow_s(luxPing, luxPingStr, 10);
-		wcscat_s(luxPingStr, L"ms");
+		if (luxPing == PING_ERROR_VALUE) {
+			wcscat_s(luxPingStr, L"X");
+		} else {
+			_itow_s(luxPing, luxPingStr, 10);
+			wcscat_s(luxPingStr, L"ms");
+		}
 		TextOut(hdc, 100, 80, luxPingStr, wcslen(luxPingStr));
 
-		_itow_s(shnPing, shnPingStr, 10);	
-		wcscat_s(shnPingStr, L"ms");
+		if (shnPing == PING_ERROR_VALUE) {
+			wcscat_s(shnPingStr, L"X");
+		} else {
+			_itow_s(shnPing, shnPingStr, 10);
+			wcscat_s(shnPingStr, L"ms");
+		}
 		TextOut(hdc, 100, 100, shnPingStr, wcslen(shnPingStr));
 		
-		_itow_s(ausPing, ausPingStr, 10);
-		wcscat_s(ausPingStr, L"ms");
+		if (ausPing == PING_ERROR_VALUE) {
+			wcscat_s(ausPingStr, L"X");
+		} else {
+			_itow_s(ausPing, ausPingStr, 10);
+			wcscat_s(ausPingStr, L"ms");
+		}
 		TextOut(hdc, 100, 120, ausPingStr, wcslen(ausPingStr));
 
 		EndPaint(hWnd, &ps);
