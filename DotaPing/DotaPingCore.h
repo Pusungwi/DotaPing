@@ -13,9 +13,6 @@
 #include <IcmpAPI.h>
 #include <stdio.h>
 
-void getOwnIPAddress();
-void ping(char *destination);
-
 int getPingStatus(char *targetUrl);
 
 int getPingValueFromSingapore();

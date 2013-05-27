@@ -179,14 +179,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		TextOut(hdc, 56, 120, L"хёаж : ", 5);
 
 		sgnPing = getPingValueFromSingapore();
-		_itow_s(sgnPing, sgnPingStr, 10);
-		wcscat_s(sgnPingStr, L"ms");
+		if (sgnPing == PING_ERROR_VALUE) {
+			wcsstr(sgnPingStr, L"X");
+		} else {
+			_itow_s(sgnPing, sgnPingStr, 10);
+			wcscat_s(sgnPingStr, L"ms");
+		}
 		TextOut(hdc, 100, 20, sgnPingStr, wcslen(sgnPingStr));
-		//TextOut(hdc, 130, 20, L"ms", 2);
 
 		usePing = getPingValueFromUSEast();
-		_itow_s(usePing, usePingStr, 10);
-		wcscat_s(usePingStr, L"ms");
+		if (usePing == PING_ERROR_VALUE) {
+			wcsstr(usePingStr, L"X");
+		} else {
+			_itow_s(usePing, usePingStr, 10);
+			wcscat_s(usePingStr, L"ms");	
+		}
 		TextOut(hdc, 100, 40, usePingStr, wcslen(usePingStr));
 
 		uswPing = getPingValueFromUSWest();
