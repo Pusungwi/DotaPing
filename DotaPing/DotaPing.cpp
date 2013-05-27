@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 #include "DotaPing.h"
-#include "DotaPingCore.h"
 
 #define MAX_LOADSTRING 100
 
@@ -108,6 +107,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
       return FALSE;
    }
 
+   refreshAllServerPingValue();
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
@@ -126,22 +126,11 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	int sgnPing = PING_DEFAULT_VALUE;
 	WCHAR sgnPingStr[7] = _T("");
-
-	int uswPing = PING_DEFAULT_VALUE;
 	WCHAR uswPingStr[7] = _T("");
-
-	int usePing = PING_DEFAULT_VALUE;
 	WCHAR usePingStr[7] = _T("");
-
-	int shnPing = PING_DEFAULT_VALUE;
 	WCHAR shnPingStr[7] = _T("");
-
-	int luxPing = PING_DEFAULT_VALUE;
 	WCHAR luxPingStr[7] = _T("");
-
-	int ausPing = PING_DEFAULT_VALUE;
 	WCHAR ausPingStr[7] = _T("");
 
 	int wmId, wmEvent;
@@ -151,6 +140,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_CREATE:
+		CreateWindow(L"button",L"새로고침",WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 40,150,100,25,
+			hWnd,(HMENU)IDC_BUTTON_REFRESH,hInst,NULL); 
 		break;
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
@@ -163,6 +154,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
+			break;
+		case IDC_BUTTON_REFRESH:
+			// TODO: 여기에 핑 갱신 메소드를 집어 넣습니다.
+			refreshAllServerPingValue();
+			InvalidateRect(hWnd, NULL, FALSE);
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
@@ -178,16 +174,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		TextOut(hdc, 40, 100, L"상하이 : ", 6);
 		TextOut(hdc, 56, 120, L"호주 : ", 5);
 
-		sgnPing = getPingValueFromSingapore();
 		if (sgnPing == PING_ERROR_VALUE) {
-			wcsstr(sgnPingStr, L"X");
+			wcscat_s(sgnPingStr, L"X");
 		} else {
 			_itow_s(sgnPing, sgnPingStr, 10);
 			wcscat_s(sgnPingStr, L"ms");
 		}
 		TextOut(hdc, 100, 20, sgnPingStr, wcslen(sgnPingStr));
 
-		usePing = getPingValueFromUSEast();
 		if (usePing == PING_ERROR_VALUE) {
 			wcsstr(usePingStr, L"X");
 		} else {
@@ -196,22 +190,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		TextOut(hdc, 100, 40, usePingStr, wcslen(usePingStr));
 
-		uswPing = getPingValueFromUSWest();
 		_itow_s(uswPing, uswPingStr, 10);
 		wcscat_s(uswPingStr, L"ms");
 		TextOut(hdc, 100, 60, uswPingStr, wcslen(uswPingStr));
 
-		luxPing = getPingValueFromLuxemburg();
 		_itow_s(luxPing, luxPingStr, 10);
 		wcscat_s(luxPingStr, L"ms");
 		TextOut(hdc, 100, 80, luxPingStr, wcslen(luxPingStr));
 
-		shnPing = getPingValueFromShanghai();
 		_itow_s(shnPing, shnPingStr, 10);	
 		wcscat_s(shnPingStr, L"ms");
 		TextOut(hdc, 100, 100, shnPingStr, wcslen(shnPingStr));
-
-		ausPing = getPingValueFromAustrailia();
+		
 		_itow_s(ausPing, ausPingStr, 10);
 		wcscat_s(ausPingStr, L"ms");
 		TextOut(hdc, 100, 120, ausPingStr, wcslen(ausPingStr));
@@ -245,4 +235,14 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	return (INT_PTR)FALSE;
+}
+
+// 핑값 갱신하는 곳.
+void refreshAllServerPingValue() {
+	sgnPing = getPingValueFromSingapore();
+	usePing = getPingValueFromUSEast();
+	uswPing = getPingValueFromUSWest();
+	luxPing = getPingValueFromLuxemburg();
+	shnPing = getPingValueFromShanghai();
+	ausPing = getPingValueFromAustrailia();
 }

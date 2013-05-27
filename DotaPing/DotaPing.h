@@ -4,3 +4,13 @@
 #pragma once
 
 #include "resource.h"
+#include "DotaPingCore.h"
+
+int sgnPing = PING_DEFAULT_VALUE;
+int uswPing = PING_DEFAULT_VALUE;
+int usePing = PING_DEFAULT_VALUE;
+int shnPing = PING_DEFAULT_VALUE;
+int luxPing = PING_DEFAULT_VALUE;
+int ausPing = PING_DEFAULT_VALUE;
+
+void refreshAllServerPingValue();

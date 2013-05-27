@@ -66,7 +66,9 @@ int getPingValueFromDestination(char *destination) {
         (remoteHost->h_addr_list[0]);
     LPVOID ReplyBuffer = (VOID*) malloc(sizeof(ICMP_ECHO_REPLY));
 
-	if (IcmpSendEcho(hIcmpFile, *ipaddr, 0, 0, NULL, ReplyBuffer, sizeof(ICMP_ECHO_REPLY), 1000)==0) {
+	// 1000으로 하니까 핑이 높아질때의 타이밍을 못 잡음 그러므로 2000으로 타임아웃 한도치 증가.
+	// 1500으로 해도 될려나?
+	if (IcmpSendEcho(hIcmpFile, *ipaddr, 0, 0, NULL, ReplyBuffer, sizeof(ICMP_ECHO_REPLY), 2000)==0) {
 		return PING_ERROR_VALUE;
 	}
     else {
