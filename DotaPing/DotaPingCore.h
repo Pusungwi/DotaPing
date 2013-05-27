@@ -21,4 +21,5 @@ int getPingValueFromAustrailia();
 int getPingValueFromUSWest();
 int getPingValueFromUSEast();
 int getPingValueFromShanghai();
+int getPingValueFromStockholm();
 int getPingValueFromDestination(char *destination);

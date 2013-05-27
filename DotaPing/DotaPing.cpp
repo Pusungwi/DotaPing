@@ -100,7 +100,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
    hWnd = CreateWindow(szWindowClass, szTitle, WS_BORDER,
-      CW_USEDEFAULT, 0, 200, 250, NULL, NULL, hInstance, NULL);
+      CW_USEDEFAULT, 0, 200, 350, NULL, NULL, hInstance, NULL);
 
    if (!hWnd)
    {
@@ -132,6 +132,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	WCHAR shnPingStr[7] = _T("");
 	WCHAR luxPingStr[7] = _T("");
 	WCHAR ausPingStr[7] = _T("");
+	WCHAR stoPingStr[7] = _T("");
 
 	int wmId, wmEvent;
 	PAINTSTRUCT ps;
@@ -140,7 +141,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_CREATE:
-		CreateWindow(L"button",L"새로고침",WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 40,150,100,25,
+		CreateWindow(L"button",L"새로고침",WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 40,250,100,25,
 			hWnd,(HMENU)IDC_BUTTON_REFRESH,hInst,NULL); 
 		break;
 	case WM_COMMAND:
@@ -173,6 +174,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		TextOut(hdc, 8, 80, L"룩셈부르크 : ", 8);
 		TextOut(hdc, 40, 100, L"상하이 : ", 6);
 		TextOut(hdc, 56, 120, L"호주 : ", 5);
+		TextOut(hdc, 23, 140, L"스톡홀름 : ", 7);
 
 		if (sgnPing == PING_ERROR_VALUE) {
 			wcscat_s(sgnPingStr, L"X");
@@ -222,6 +224,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		TextOut(hdc, 100, 120, ausPingStr, wcslen(ausPingStr));
 
+		if (stoPing == PING_ERROR_VALUE) {
+			wcscat_s(stoPingStr, L"X");
+		} else {
+			_itow_s(stoPing, stoPingStr, 10);
+			wcscat_s(stoPingStr, L"ms");
+		}
+		TextOut(hdc, 100, 140, stoPingStr, wcslen(stoPingStr));
+
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_DESTROY:
@@ -261,4 +271,5 @@ void refreshAllServerPingValue() {
 	luxPing = getPingValueFromLuxemburg();
 	shnPing = getPingValueFromShanghai();
 	ausPing = getPingValueFromAustrailia();
+	stoPing = getPingValueFromStockholm();
 }

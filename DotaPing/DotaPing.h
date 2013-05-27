@@ -12,5 +12,6 @@ int usePing = PING_DEFAULT_VALUE;
 int shnPing = PING_DEFAULT_VALUE;
 int luxPing = PING_DEFAULT_VALUE;
 int ausPing = PING_DEFAULT_VALUE;
+int stoPing = PING_DEFAULT_VALUE;
 
 void refreshAllServerPingValue();
